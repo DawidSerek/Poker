@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Poker
+{
+    internal class Card
+    {
+        CardColor color;
+        CardValue value;
+        int id;
+
+        public Card(){}
+        public Card(int id)
+        {
+            this.id = id;
+            id--;
+            this.value = (CardValue)(id % 13 + 1);
+            this.color = (CardColor)(id/13);
+        }
+
+        public CardColor Color { get => color; set => color = value; }
+        public CardValue Value { get => value; set => this.value = value; }
+        public int Id { get => id; set => id = value; }
+
+        public override string? ToString()
+        {
+            return $"{value} of {color}/id:{id}";
+        }
+    }
+
+    public enum CardColor
+    {
+        hearts = 1,
+        spades = 2,
+        clubs = 3,
+        diamonds = 4
+    }
+
+    public enum CardValue
+    {
+        two = 1,
+        three = 2,
+        four = 3,
+        five = 4,
+        six = 5,
+        seven = 6,
+        eight = 7,
+        nine = 8,
+        ten = 9,
+        jack = 10,
+        queen = 11,
+        king = 12,
+        ace = 13
+    }
+
+}
