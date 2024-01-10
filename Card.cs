@@ -18,7 +18,7 @@ namespace Poker
             this.id = id;
             id--;
             this.value = (CardValue)(id % 13 + 1);
-            this.color = (CardColor)(id/13);
+            this.color = (CardColor)(id/13) + 1;
         }
 
         public CardColor Color { get => color; }

@@ -11,10 +11,9 @@ namespace Poker
     {
         public static List<Player> Players = new List<Player>();
         public static void AddPlayer() => Players.Add(new Player());
-
         public static void ShuffleDeck()
         {
-            for(int i = 0; i < 100; i++) {
+            for(int i = 0; i < 60; i++) {
                 Random rand = new Random();
                 int deckCount = Deck.CurrentCardLayout.Count;
 
@@ -29,23 +28,23 @@ namespace Poker
         }
 
 
-        public static (EvalEnum, int) Evaluate(Card[] EvaluatedCards)
+        public static (EvalEnum, int) Evaluate(List<Card> EvaluatedCards)
         {
-            if( EvaluatedCards.Length != 5 ) 
+            if( EvaluatedCards.Count != 5 ) 
                 throw new ArgumentException("Provided amount of cards should be of size 5");
-            
+
             //sort cards to determine if given hand is street
-            EvaluatedCards = EvaluatedCards.OrderBy(x => x.Value).ToArray();
+            EvaluatedCards = EvaluatedCards.OrderBy( x => x.Value ).ToList();
             bool hasStreet = true;
             for(int i = 1; i < 5; i++)
                 if (EvaluatedCards[i - 1].Value + 1 != EvaluatedCards[i].Value)
                 {
                     hasStreet = false;
                     hasStreet = (int)EvaluatedCards[4].Value == 13 &&
-                        (int)EvaluatedCards[0].Value == 2 &&
-                        (int)EvaluatedCards[1].Value == 3 &&
-                        (int)EvaluatedCards[2].Value == 4 &&
-                        (int)EvaluatedCards[3].Value == 5; //anoying edge case with ace
+                        (int)EvaluatedCards[0].Value == 1 &&
+                        (int)EvaluatedCards[1].Value == 2 &&
+                        (int)EvaluatedCards[2].Value == 3 &&
+                        (int)EvaluatedCards[3].Value == 4; //anoying edge case with ace
                     break;
                 }
 
@@ -131,14 +130,45 @@ namespace Poker
                 secondEval = MostRepeatedVal * 10000 + lowerPairValue * 100 + highestCard;
             }  
             else if (pairs == 1)
+            {
                 firstEval = EvalEnum.pair;
+                secondEval = MostRepeatedVal * 100 + highestCard;
+            }
 
 
             return (firstEval, secondEval);
         }
+        public static (EvalEnum, int) nthEvaluate(List<Card> EvaluatedCards)
+        {
+            if (EvaluatedCards.Count != 5 && EvaluatedCards.Count != 6 && EvaluatedCards.Count != 7)
+                throw new ArgumentException("Provided amount of cards should be of size 5-7");
+
+            if (EvaluatedCards.Count == 5)
+                return Evaluate(EvaluatedCards);
+
+            (EvalEnum, int) output = (EvalEnum.err, -1);
+            for (int i = 0; i < EvaluatedCards.Count; i++)
+            {
+                List<Card> EvaluatedCardsWOi = EvaluatedCards.Where((_, index) => index != i).ToList();
+
+                if( EvaluateOutputToInt(output) < EvaluateOutputToInt(nthEvaluate(EvaluatedCardsWOi)) )
+                    output = nthEvaluate(EvaluatedCardsWOi);
+            }
+
+            return output;
+        }
+        public static int EvaluateOutputToInt((EvalEnum, int) o) => ((int)o.Item1 * 1000000 + o.Item2);
+        public static int OutcomeComparator( (EvalEnum, int) o1, (EvalEnum, int) o2 )
+        {
+            if( o1 == o2 ) return 0;
+            if((EvaluateOutputToInt(o1) > EvaluateOutputToInt(o2))) return 1;
+            return -1;
+        }
+            
 
         public enum EvalEnum
         {
+            err = 0,
             high = 1,
             pair = 2,
             pairs = 3,
