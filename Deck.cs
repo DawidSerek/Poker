@@ -11,8 +11,8 @@ namespace Poker
         public static List<Card> CurrentCardLayout = new List<Card>();
 
         static Deck() {
-            for(int i = 0; i < 52; i++)
-                CurrentCardLayout.Add( new Card(i + 1) );
+            for(int i = 1; i <= 52; i++)
+                CurrentCardLayout.Add( new Card(i) );
         }
         public static Card TransferCard() {
             Card temp = CurrentCardLayout.Last();

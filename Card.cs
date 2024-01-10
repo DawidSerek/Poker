@@ -21,9 +21,9 @@ namespace Poker
             this.color = (CardColor)(id/13);
         }
 
-        public CardColor Color { get => color; set => color = value; }
-        public CardValue Value { get => value; set => this.value = value; }
-        public int Id { get => id; set => id = value; }
+        public CardColor Color { get => color; }
+        public CardValue Value { get => value; }
+        public int Id { get => id; init => id = value; }
 
         public override string? ToString()
         {

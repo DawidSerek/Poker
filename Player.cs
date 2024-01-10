@@ -8,7 +8,7 @@ namespace Poker
 {
     internal class Player
     {
-        const int n = 5;
+        const int n = 2;
         Card[] cards = new Card[n];
 
         private void generatePlayer()
