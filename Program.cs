@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Security;
 
 namespace Poker
 {
@@ -7,22 +8,9 @@ namespace Poker
     {
         static void Main(string[] args)
         {
-            //Load sample data
-            var sampleData = new MLModel.ModelInput()
-            {
-                Col0 = 6F,
-                Col1 = 28F,
-                Col2 = 18F,
-                Col3 = 21F,
-                Col4 = 46F,
-                Col5 = 0F,
-                Col6 = 0F,
-            };
 
-            //Load model and predict output
-            var result = MLModel.Predict(sampleData);
+            MLDataGenerator.GenerateGames(10);
 
-            
 
             /* Dealer.ShuffleDeck();
              console.writeline(deck.tostring());*/
@@ -65,8 +53,6 @@ namespace Poker
             }*/
 
             /*MLDataGenerator.GenerateCsv(100000);*/
-
-
         }
     }
 }

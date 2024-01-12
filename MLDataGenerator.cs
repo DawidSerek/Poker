@@ -39,8 +39,10 @@ namespace Poker
                 table.Add(Deck.CurrentCardLayout[i]);
             }
 
-            (Dealer.EvalEnum, int) hand1outcome = Dealer.nthEvaluate(hand1.Concat(table).ToList());
-            (Dealer.EvalEnum, int) hand2outcome = Dealer.nthEvaluate(hand2.Concat(table).ToList());
+            Console.WriteLine("\n");
+
+            Outcome hand1outcome = Dealer.nthEvaluateInit(hand1.Concat(table).ToList());
+            Outcome hand2outcome = Dealer.nthEvaluateInit(hand2.Concat(table).ToList());
 
             Console.WriteLine(hand1outcome);
             Console.WriteLine(Dealer.EvaluateOutputToInt(hand1outcome));
@@ -72,7 +74,7 @@ namespace Poker
 
         public static void GenerateCsv(int size = 10)
         {
-            List< List<int> > rows = new List< List<int> >();
+            List<List<int>> rows = new List<List<int>>();
 
             StringBuilder csvContent = new StringBuilder();
 
@@ -80,7 +82,7 @@ namespace Poker
             {
                 csvContent.AppendLine(string.Join(";", GenerateCsvData(0)));
                 csvContent.AppendLine(string.Join(";", GenerateCsvData(3)));
-                csvContent.AppendLine( string.Join( ";", GenerateCsvData(4) ) );
+                csvContent.AppendLine(string.Join(";", GenerateCsvData(4)));
                 csvContent.AppendLine(string.Join(";", GenerateCsvData(5)));
             }
 
@@ -106,22 +108,25 @@ namespace Poker
             for (int i = 4; i < tableSize + 4; i++)
                 table.Add(Deck.CurrentCardLayout[i]);
 
-            (Dealer.EvalEnum, int) hand1outcome = Dealer.nthEvaluate(hand1.Concat(table).ToList());
-            (Dealer.EvalEnum, int) hand2outcome = Dealer.nthEvaluate(hand2.Concat(table).ToList());
+            Outcome hand1outcome = Dealer.nthEvaluateInit(hand1.Concat(table).ToList());
+            Outcome hand2outcome = Dealer.nthEvaluateInit(hand2.Concat(table).ToList());
 
             /*foreach (Card card in hand1) Console.WriteLine(card.Id);
-            foreach (Card card in  table) Console.WriteLine(card.Id);
+            foreach (Card card in table) Console.WriteLine(card.Id);
             Console.WriteLine(Dealer.OutcomeComparator(hand1outcome, hand2outcome));*/
 
             List<int> OutputRow = new List<int>();
-            foreach (Card card in hand1) OutputRow.Add(card.Id);
 
-            if (!isSecretlyZero)
+            /*foreach (Card card in hand1) OutputRow.Add(card.Id);*/
+
+            /*if (!isSecretlyZero)
                 foreach (Card card in table) OutputRow.Add(card.Id);
             else
-                for (int i = 0; i < 5; i++) OutputRow.Add(0); 
+                for (int i = 0; i < 5; i++) OutputRow.Add(0);*/
 
-            for(int i = 0; i < 5 - tableSize; i++) OutputRow.Add(0);
+            /*for (int i = 0; i < 5 - tableSize; i++) OutputRow.Add(0);*/
+            OutputRow.Add(Dealer.EvaluateOutputToInt(hand1outcome));
+            OutputRow.Add(hand1outcome.HandUtility);
             OutputRow.Add(Dealer.OutcomeComparator(hand1outcome, hand2outcome));
 
             return OutputRow;

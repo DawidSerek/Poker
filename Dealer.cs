@@ -28,7 +28,7 @@ namespace Poker
         }
 
 
-        public static (EvalEnum, int) Evaluate(List<Card> EvaluatedCards)
+        public static Outcome Evaluate(List<Card> EvaluatedCards)
         {
             if( EvaluatedCards.Count != 5 ) 
                 throw new ArgumentException("Provided amount of cards should be of size 5");
@@ -135,52 +135,64 @@ namespace Poker
                 secondEval = MostRepeatedVal * 100 + highestCard;
             }
 
+            Outcome outcome = new Outcome(firstEval, secondEval, 2);
 
-            return (firstEval, secondEval);
+            return outcome;
         }
-        public static (EvalEnum, int) nthEvaluate(List<Card> EvaluatedCards)
+
+        private static Outcome nthEvaluate(List<(Card, int)> EvaluatedCards, int prevUtility)
         {
-            if (EvaluatedCards.Count != 5 && EvaluatedCards.Count != 6 && EvaluatedCards.Count != 7)
-                throw new ArgumentException("Provided amount of cards should be of size 5-7");
 
             if (EvaluatedCards.Count == 5)
-                return Evaluate(EvaluatedCards);
+            {
+                List<Card> input = new List<Card>();
+                foreach (var card in EvaluatedCards)
+                    input.Add(card.Item1);
+                return Evaluate(input);
+            }   
 
-            (EvalEnum, int) output = (EvalEnum.err, -1);
+            Outcome output = new Outcome(EvalEnum.err, -1, prevUtility);
             for (int i = 0; i < EvaluatedCards.Count; i++)
             {
-                List<Card> EvaluatedCardsWOi = EvaluatedCards.Where((_, index) => index != i).ToList();
+                List<(Card, int)> EvaluatedCardsWOi = EvaluatedCards.Where((_, index) => index != i).ToList();
 
-                if( EvaluateOutputToInt(output) < EvaluateOutputToInt(nthEvaluate(EvaluatedCardsWOi)) )
-                    output = nthEvaluate(EvaluatedCardsWOi);
+                Outcome rec = nthEvaluate(EvaluatedCardsWOi, prevUtility);
+                if (EvaluateOutputToInt(output) < EvaluateOutputToInt(rec))
+                {
+                    output = new Outcome(
+                        rec.FirstEval, 
+                        rec.SecondEval,
+                        rec.HandUtility -
+                        ((EvaluatedCards[i].Item2 == 0 || EvaluatedCards[i].Item2 == 1) ? 1 : 0)
+                    );
+                }
             }
 
             return output;
         }
-        public static int EvaluateOutputToInt((EvalEnum, int) o) => ((int)o.Item1 * 1000000 + o.Item2);
-        public static int OutcomeComparator( (EvalEnum, int) o1, (EvalEnum, int) o2 )
+        public static Outcome nthEvaluateInit(List<Card> EvaluatedCards)
         {
-            if( o1 == o2 ) return 0;
-            if((EvaluateOutputToInt(o1) > EvaluateOutputToInt(o2))) return 1;
+            if (EvaluatedCards.Count != 5 && EvaluatedCards.Count != 6 && EvaluatedCards.Count != 7)
+                throw new ArgumentException("Provided amount of cards should be of size 5-7");
+
+            List<(Card, int)> input = new List<(Card, int)>();
+
+            for (int i = 0; i < EvaluatedCards.Count; i++)
+                input.Add((EvaluatedCards[i], i));
+
+            Outcome output = nthEvaluate(input, -7 );
+            return output;
+        }
+
+
+        public static int EvaluateOutputToInt(Outcome o) => ((int)o.FirstEval * 1000000 + o.SecondEval);
+        public static int OutcomeComparator( Outcome o1, Outcome o2 )
+        {
+            if( EvaluateOutputToInt(o1) == EvaluateOutputToInt(o2) ) return 0;
+            if( EvaluateOutputToInt(o1) > EvaluateOutputToInt(o2) ) return 1;
             return -1;
         }
             
-
-        public enum EvalEnum
-        {
-            err = 0,
-            high = 1,
-            pair = 2,
-            pairs = 3,
-            three = 4,
-            street = 5,
-            straight = 6,
-            flush = 7,
-            house = 8,
-            quads = 9,
-            poker = 10,
-            rpoker = 11
-        }
 
     }
 }

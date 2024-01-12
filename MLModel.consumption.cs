@@ -27,26 +27,6 @@ namespace Poker
             [ColumnName(@"col2")]
             public float Col2 { get; set; }
 
-            [LoadColumn(3)]
-            [ColumnName(@"col3")]
-            public float Col3 { get; set; }
-
-            [LoadColumn(4)]
-            [ColumnName(@"col4")]
-            public float Col4 { get; set; }
-
-            [LoadColumn(5)]
-            [ColumnName(@"col5")]
-            public float Col5 { get; set; }
-
-            [LoadColumn(6)]
-            [ColumnName(@"col6")]
-            public float Col6 { get; set; }
-
-            [LoadColumn(7)]
-            [ColumnName(@"col7")]
-            public float Col7 { get; set; }
-
         }
 
         #endregion
@@ -64,22 +44,7 @@ namespace Poker
             public float Col1 { get; set; }
 
             [ColumnName(@"col2")]
-            public float Col2 { get; set; }
-
-            [ColumnName(@"col3")]
-            public float Col3 { get; set; }
-
-            [ColumnName(@"col4")]
-            public float Col4 { get; set; }
-
-            [ColumnName(@"col5")]
-            public float Col5 { get; set; }
-
-            [ColumnName(@"col6")]
-            public float Col6 { get; set; }
-
-            [ColumnName(@"col7")]
-            public uint Col7 { get; set; }
+            public uint Col2 { get; set; }
 
             [ColumnName(@"Features")]
             public float[] Features { get; set; }
@@ -150,10 +115,10 @@ namespace Poker
         {
             var schema = PredictEngine.Value.OutputSchema;
 
-            var labelColumn = schema.GetColumnOrNull("col7");
+            var labelColumn = schema.GetColumnOrNull("col2");
             if (labelColumn == null)
             {
-                throw new Exception("col7 column not found. Make sure the name searched for matches the name in the schema.");
+                throw new Exception("col2 column not found. Make sure the name searched for matches the name in the schema.");
             }
 
             // Key values contains an ordered array of the possible labels. This allows us to map the results to the correct label value.
