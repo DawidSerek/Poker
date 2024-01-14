@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-    internal class Card
+    public class Card
     {
         CardColor color;
         CardValue value;
         int id;
+        string path; 
+        
 
         public Card(){}
         public Card(int id)
@@ -19,11 +21,13 @@ namespace Poker
             id--;
             this.value = (CardValue)(id % 13 + 1);
             this.color = (CardColor)(id/13) + 1;
+            path = "_" + id + "_" + value + "_of_" + color ;
         }
 
         public CardColor Color { get => color; }
         public CardValue Value { get => value; }
         public int Id { get => id; init => id = value; }
+        public string Path { get => path; }
 
         public override string? ToString()
         {
