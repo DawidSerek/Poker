@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-    internal class Player
+    public class Player
     {
         const int n = 2;
         Card[] cards = new Card[n];

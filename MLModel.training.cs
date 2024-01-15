@@ -14,7 +14,7 @@ namespace Poker
 {
     public partial class MLModel
     {
-        public const string RetrainFilePath =  @"D:\Programowanie\VS\PO\Poker\output.csv";
+        public const string RetrainFilePath =  @"C:\Users\marle\source\repos\Poker\output.csv";
         public const char RetrainSeparatorChar = ';';
         public const bool RetrainHasHeader =  false;
 

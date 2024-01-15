@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-    internal static class Deck
+    public static class Deck
     {
         public static List<Card> CurrentCardLayout = new List<Card>();
 

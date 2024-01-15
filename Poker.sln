@@ -5,9 +5,7 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poker", "Poker.csproj", "{F7436FDF-D680-4052-B4E3-0CADB1BEB38B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerGUI", "..\PokerGUI\PokerGUI.csproj", "{F34F2DF6-A150-4A1C-B4F6-D941D917E8E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerWinForms", "..\PokerWinForms\PokerWinForms.csproj", "{B42B49B0-9229-44E2-AB36-247F0C8F6208}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerWinForms", "..\PokerWinForms\PokerWinForms.csproj", "{B42B49B0-9229-44E2-AB36-247F0C8F6208}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{F7436FDF-D680-4052-B4E3-0CADB1BEB38B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7436FDF-D680-4052-B4E3-0CADB1BEB38B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7436FDF-D680-4052-B4E3-0CADB1BEB38B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F34F2DF6-A150-4A1C-B4F6-D941D917E8E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F34F2DF6-A150-4A1C-B4F6-D941D917E8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F34F2DF6-A150-4A1C-B4F6-D941D917E8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F34F2DF6-A150-4A1C-B4F6-D941D917E8E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B42B49B0-9229-44E2-AB36-247F0C8F6208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B42B49B0-9229-44E2-AB36-247F0C8F6208}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B42B49B0-9229-44E2-AB36-247F0C8F6208}.Release|Any CPU.ActiveCfg = Release|Any CPU

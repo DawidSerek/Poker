@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-    internal static class Dealer
+    public static class Dealer
     {
         public static List<Player> Players = new List<Player>();
         public static void AddPlayer() => Players.Add(new Player());

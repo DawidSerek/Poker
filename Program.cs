@@ -9,7 +9,7 @@ namespace Poker
         static void Main(string[] args)
         {
 
-            MLDataGenerator.GenerateGames(10);
+            //MLDataGenerator.GenerateGames(10);
 
 
             /* Dealer.ShuffleDeck();
@@ -53,6 +53,8 @@ namespace Poker
             }*/
 
             /*MLDataGenerator.GenerateCsv(100000);*/
+
+
         }
     }
 }
