@@ -11,8 +11,8 @@ namespace Poker
         CardColor color;
         CardValue value;
         int id;
-        string path; 
-        
+        string path;
+        int b;
 
         public Card(){}
         public Card(int id)
