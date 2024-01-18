@@ -14,7 +14,11 @@ namespace PokerWinForms
 {
     public partial class MLModel
     {
+<<<<<<< HEAD
         public const string RetrainFilePath =  @"C:\Users\marle\source\Pokernagithuba\PokerWinForms\output.csv";
+=======
+        public const string RetrainFilePath =  @"C:\Users\marle\source\repos\Poker\output.csv";
+>>>>>>> 91938fb9c2dcda13ed53318bfcd2456b5a5c4402
         public const char RetrainSeparatorChar = ';';
         public const bool RetrainHasHeader =  false;
 

@@ -3,7 +3,11 @@
   "DataSource": {
     "Type": "TabularFile",
     "Version": 1,
+<<<<<<< HEAD
     "FilePath": "C:\\Users\\marle\\source\\Pokernagithuba\\PokerWinForms\\output.csv",
+=======
+    "FilePath": "C:\\Users\\marle\\source\\repos\\Poker\\output.csv",
+>>>>>>> 91938fb9c2dcda13ed53318bfcd2456b5a5c4402
     "Delimiter": ";",
     "DecimalMarker": ".",
     "HasHeader": false,
@@ -137,7 +141,11 @@
         "Type": "Trial",
         "TrainerName": "FastForestOva",
         "Score": 0.54186067326651277,
+<<<<<<< HEAD
         "RuntimeInSeconds": 3.533,
+=======
+        "RuntimeInSeconds": 6.93,
+>>>>>>> 91938fb9c2dcda13ed53318bfcd2456b5a5c4402
         "Parameter": {
           "_SCHEMA_": "e0 * e1 * e2 * e4 * e10",
           "e0": {
@@ -227,7 +235,11 @@
         "Type": "Trial",
         "TrainerName": "FastForestOva",
         "Score": 0.54186067326651277,
+<<<<<<< HEAD
         "RuntimeInSeconds": 10.173,
+=======
+        "RuntimeInSeconds": 8.662,
+>>>>>>> 91938fb9c2dcda13ed53318bfcd2456b5a5c4402
         "Parameter": {
           "_SCHEMA_": "e0 * e1 * e2 * e4 * e10",
           "e0": {
@@ -257,7 +269,11 @@
             "AddKeyValueAnnotationsAsText": false
           },
           "e4": {
+<<<<<<< HEAD
             "NumberOfTrees": 16,
+=======
+            "NumberOfTrees": 12,
+>>>>>>> 91938fb9c2dcda13ed53318bfcd2456b5a5c4402
             "NumberOfLeaves": 4,
             "FeatureFraction": 1.0,
             "LabelColumnName": "col2",
@@ -317,7 +333,11 @@
         "Type": "Trial",
         "TrainerName": "FastForestOva",
         "Score": 0.54186067326651277,
+<<<<<<< HEAD
         "RuntimeInSeconds": 4.944,
+=======
+        "RuntimeInSeconds": 7.241,
+>>>>>>> 91938fb9c2dcda13ed53318bfcd2456b5a5c4402
         "Parameter": {
           "_SCHEMA_": "e0 * e1 * e2 * e4 * e10",
           "e0": {
@@ -407,7 +427,11 @@
         "Type": "Trial",
         "TrainerName": "FastForestOva",
         "Score": 0.54186067326651277,
+<<<<<<< HEAD
         "RuntimeInSeconds": 4.418,
+=======
+        "RuntimeInSeconds": 7.205,
+>>>>>>> 91938fb9c2dcda13ed53318bfcd2456b5a5c4402
         "Parameter": {
           "_SCHEMA_": "e0 * e1 * e2 * e4 * e10",
           "e0": {
@@ -438,7 +462,101 @@
           },
           "e4": {
             "NumberOfTrees": 4,
+<<<<<<< HEAD
             "NumberOfLeaves": 5,
+=======
+            "NumberOfLeaves": 24,
+            "FeatureFraction": 1.0,
+            "LabelColumnName": "col2",
+            "FeatureColumnName": "Features"
+          },
+          "e3": {
+            "NumberOfLeaves": 4,
+            "MinimumExampleCountPerLeaf": 20,
+            "NumberOfTrees": 4,
+            "MaximumBinCountPerFeature": 255,
+            "FeatureFraction": 1.0,
+            "LearningRate": 0.099999999999999978,
+            "LabelColumnName": "col2",
+            "FeatureColumnName": "Features"
+          },
+          "e5": {
+            "NumberOfLeaves": 4,
+            "MinimumExampleCountPerLeaf": 20,
+            "LearningRate": 1.0,
+            "NumberOfTrees": 4,
+            "SubsampleFraction": 1.0,
+            "MaximumBinCountPerFeature": 255,
+            "FeatureFraction": 1.0,
+            "L1Regularization": 2E-10,
+            "L2Regularization": 1.0,
+            "LabelColumnName": "col2",
+            "FeatureColumnName": "Features"
+          },
+          "e6": {
+            "L1Regularization": 1.0,
+            "L2Regularization": 1.0,
+            "LabelColumnName": "col2",
+            "FeatureColumnName": "Features"
+          },
+          "e7": {
+            "L1Regularization": 1.0,
+            "L2Regularization": 1.0,
+            "LabelColumnName": "col2",
+            "FeatureColumnName": "Features"
+          },
+          "e8": {
+            "L1Regularization": 1.0,
+            "L2Regularization": 0.1,
+            "LabelColumnName": "col2",
+            "FeatureColumnName": "Features"
+          },
+          "e9": {
+            "L1Regularization": 1.0,
+            "L2Regularization": 0.1,
+            "LabelColumnName": "col2",
+            "FeatureColumnName": "Features"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "FastForestOva",
+        "Score": 0.54186067326651277,
+        "RuntimeInSeconds": 5.404,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e4 * e10",
+          "e0": {
+            "OutputColumnNames": [
+              "col0",
+              "col1"
+            ],
+            "InputColumnNames": [
+              "col0",
+              "col1"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "col0",
+              "col1"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e10": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          },
+          "e2": {
+            "OutputColumnName": "col2",
+            "InputColumnName": "col2",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e4": {
+            "NumberOfTrees": 4,
+            "NumberOfLeaves": 4,
+>>>>>>> 91938fb9c2dcda13ed53318bfcd2456b5a5c4402
             "FeatureFraction": 1.0,
             "LabelColumnName": "col2",
             "FeatureColumnName": "Features"
@@ -508,7 +626,11 @@
     },
     "Schema": "e0 * e1 * e2 * (e3 + e4 + e5 + e6 + e7 + e8 + e9) * e10",
     "MetricName": "MacroAccuracy",
+<<<<<<< HEAD
     "ModelFilePath": "C:\\Users\\marle\\source\\Pokernagithuba\\PokerWinForms\\MLModel.mlnet"
+=======
+    "ModelFilePath": "C:\\Users\\marle\\source\\repos\\Poker\\MLModel.mlnet"
+>>>>>>> 91938fb9c2dcda13ed53318bfcd2456b5a5c4402
   },
   "Type": "TrainingConfig",
   "Version": 4,
