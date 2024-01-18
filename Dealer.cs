@@ -1,19 +1,21 @@
-﻿using System;
+﻿using PokerWinForms;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Poker
+namespace PokerWinForms
 {
-    internal static class Dealer
+    public static class Dealer
     {
         public static List<Player> Players = new List<Player>();
         public static void AddPlayer() => Players.Add(new Player());
         public static void ShuffleDeck()
         {
-            for(int i = 0; i < 60; i++) {
+            for (int i = 0; i < 60; i++)
+            {
                 Random rand = new Random();
                 int deckCount = Deck.CurrentCardLayout.Count;
 
@@ -30,13 +32,13 @@ namespace Poker
 
         public static Outcome Evaluate(List<Card> EvaluatedCards)
         {
-            if( EvaluatedCards.Count != 5 ) 
+            if (EvaluatedCards.Count != 5)
                 throw new ArgumentException("Provided amount of cards should be of size 5");
 
             //sort cards to determine if given hand is street
-            EvaluatedCards = EvaluatedCards.OrderBy( x => x.Value ).ToList();
+            EvaluatedCards = EvaluatedCards.OrderBy(x => x.Value).ToList();
             bool hasStreet = true;
-            for(int i = 1; i < 5; i++)
+            for (int i = 1; i < 5; i++)
                 if (EvaluatedCards[i - 1].Value + 1 != EvaluatedCards[i].Value)
                 {
                     hasStreet = false;
@@ -52,7 +54,7 @@ namespace Poker
             int[] cardColors = new int[4 + 1];
             int[] cardValues = new int[13 + 1];
             int highestCard = -1;
-            foreach ( Card c in EvaluatedCards)
+            foreach (Card c in EvaluatedCards)
             {
                 cardColors[(int)c.Color]++;
                 cardValues[(int)c.Value]++;
@@ -60,7 +62,7 @@ namespace Poker
             }
 
             int MostRepeatedVal = -1, //for extra edge cases
-                NoOccurrencesMax = cardValues[1]; 
+                NoOccurrencesMax = cardValues[1];
             int pairs = 0;
             bool hasThreeOaK = false,
                 hasFlush = false,
@@ -68,7 +70,7 @@ namespace Poker
 
             for (int i = 1; i < 13 + 1; i++)
             {
-                if(cardValues[i] >= NoOccurrencesMax)
+                if (cardValues[i] >= NoOccurrencesMax)
                 {
                     NoOccurrencesMax = cardValues[i];
                     MostRepeatedVal = i;
@@ -121,14 +123,14 @@ namespace Poker
                 firstEval = EvalEnum.pairs;
                 int lowerPairValue = -1;
 
-                for(int i = 1; i < 13 + 1; i++)
+                for (int i = 1; i < 13 + 1; i++)
                     if (cardValues[i] == 2)
                     {
                         lowerPairValue = i;
                         break;
                     }
                 secondEval = MostRepeatedVal * 10000 + lowerPairValue * 100 + highestCard;
-            }  
+            }
             else if (pairs == 1)
             {
                 firstEval = EvalEnum.pair;
@@ -149,7 +151,7 @@ namespace Poker
                 foreach (var card in EvaluatedCards)
                     input.Add(card.Item1);
                 return Evaluate(input);
-            }   
+            }
 
             Outcome output = new Outcome(EvalEnum.err, -1, prevUtility);
             for (int i = 0; i < EvaluatedCards.Count; i++)
@@ -160,7 +162,7 @@ namespace Poker
                 if (EvaluateOutputToInt(output) < EvaluateOutputToInt(rec))
                 {
                     output = new Outcome(
-                        rec.FirstEval, 
+                        rec.FirstEval,
                         rec.SecondEval,
                         rec.HandUtility -
                         ((EvaluatedCards[i].Item2 == 0 || EvaluatedCards[i].Item2 == 1) ? 1 : 0)
@@ -180,19 +182,19 @@ namespace Poker
             for (int i = 0; i < EvaluatedCards.Count; i++)
                 input.Add((EvaluatedCards[i], i));
 
-            Outcome output = nthEvaluate(input, -7 );
+            Outcome output = nthEvaluate(input, -7);
             return output;
         }
 
 
         public static int EvaluateOutputToInt(Outcome o) => ((int)o.FirstEval * 1000000 + o.SecondEval);
-        public static int OutcomeComparator( Outcome o1, Outcome o2 )
+        public static int OutcomeComparator(Outcome o1, Outcome o2)
         {
-            if( EvaluateOutputToInt(o1) == EvaluateOutputToInt(o2) ) return 0;
-            if( EvaluateOutputToInt(o1) > EvaluateOutputToInt(o2) ) return 1;
+            if (EvaluateOutputToInt(o1) == EvaluateOutputToInt(o2)) return 0;
+            if (EvaluateOutputToInt(o1) > EvaluateOutputToInt(o2)) return 1;
             return -1;
         }
-            
+
 
     }
 }

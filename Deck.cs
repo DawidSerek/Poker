@@ -4,19 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Poker
+namespace PokerWinForms
 {
-    internal static class Deck
+    public static class Deck
     {
         public static List<Card> CurrentCardLayout = new List<Card>();
 
-        static Deck() {
-            for(int i = 1; i <= 52; i++)
-                CurrentCardLayout.Add( new Card(i) );
+        static Deck()
+        {
+            for (int i = 1; i <= 52; i++)
+                CurrentCardLayout.Add(new Card(i));
         }
-        public static Card TransferCard() {
+        public static Card TransferCard()
+        {
             Card temp = CurrentCardLayout.Last();
-            CurrentCardLayout.RemoveAt( CurrentCardLayout.Count - 1 );
+            CurrentCardLayout.RemoveAt(CurrentCardLayout.Count - 1);
             return temp;
         }
 
@@ -27,6 +29,6 @@ namespace Poker
                 output += $"{CurrentCardLayout[i].ToString()}\n";
             return output;
         }
-     
+
     }
 }

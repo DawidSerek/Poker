@@ -4,24 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Poker
+namespace PokerWinForms
 {
     public class Card
     {
         CardColor color;
         CardValue value;
         int id;
-        string path; 
-        
+        string path;
+        int b;
 
-        public Card(){}
+        public Card() { }
         public Card(int id)
         {
             this.id = id;
             id--;
             this.value = (CardValue)(id % 13 + 1);
-            this.color = (CardColor)(id/13) + 1;
-            path = "_" + id + "_" + value + "_of_" + color ;
+            this.color = (CardColor)(id / 13) + 1;
+            path = "_" + id + "_" + value + "_of_" + color;
         }
 
         public CardColor Color { get => color; }

@@ -10,11 +10,11 @@ using Microsoft.ML.Trainers.FastTree;
 using Microsoft.ML.Trainers;
 using Microsoft.ML;
 
-namespace Poker
+namespace PokerWinForms
 {
     public partial class MLModel
     {
-        public const string RetrainFilePath =  @"D:\Programowanie\VS\PO\Poker\output.csv";
+        public const string RetrainFilePath =  @"C:\Users\marle\source\Pokernagithuba\PokerWinForms\output.csv";
         public const char RetrainSeparatorChar = ';';
         public const bool RetrainHasHeader =  false;
 
@@ -94,7 +94,7 @@ namespace Poker
             var pipeline = mlContext.Transforms.ReplaceMissingValues(new []{new InputOutputColumnPair(@"col0", @"col0"),new InputOutputColumnPair(@"col1", @"col1")})      
                                     .Append(mlContext.Transforms.Concatenate(@"Features", new []{@"col0",@"col1"}))      
                                     .Append(mlContext.Transforms.Conversion.MapValueToKey(outputColumnName:@"col2",inputColumnName:@"col2",addKeyValueAnnotationsAsText:false))      
-                                    .Append(mlContext.MulticlassClassification.Trainers.OneVersusAll(binaryEstimator:mlContext.BinaryClassification.Trainers.FastForest(new FastForestBinaryTrainer.Options(){NumberOfTrees=4,NumberOfLeaves=4,FeatureFraction=1F,LabelColumnName=@"col2",FeatureColumnName=@"Features"}),labelColumnName:@"col2"))      
+                                    .Append(mlContext.MulticlassClassification.Trainers.OneVersusAll(binaryEstimator:mlContext.BinaryClassification.Trainers.FastForest(new FastForestBinaryTrainer.Options(){NumberOfTrees=14,NumberOfLeaves=5,FeatureFraction=0.9291583F,LabelColumnName=@"col2",FeatureColumnName=@"Features"}),labelColumnName:@"col2"))      
                                     .Append(mlContext.Transforms.Conversion.MapKeyToValue(outputColumnName:@"PredictedLabel",inputColumnName:@"PredictedLabel"));
 
             return pipeline;

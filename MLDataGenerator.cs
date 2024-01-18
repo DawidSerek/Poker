@@ -5,8 +5,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using PokerWinForms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace Poker
+namespace PokerWinForms
 {
     internal class MLDataGenerator
     {
@@ -17,11 +19,11 @@ namespace Poker
 
             for (int i = 0; i < 2; i++)
             {
-                Console.WriteLine( Deck.CurrentCardLayout[i] );
+                Console.WriteLine(Deck.CurrentCardLayout[i]);
                 hand1.Add(Deck.CurrentCardLayout[i]);
             }
-            
-            Console.WriteLine( "vs" );
+
+            Console.WriteLine("vs");
 
             List<Card> hand2 = new List<Card>();
             for (int i = 2; i < 4; i++)
@@ -38,7 +40,6 @@ namespace Poker
                 Console.WriteLine(Deck.CurrentCardLayout[i]);
                 table.Add(Deck.CurrentCardLayout[i]);
             }
-
             Console.WriteLine("\n");
 
             Outcome hand1outcome = Dealer.nthEvaluateInit(hand1.Concat(table).ToList());
@@ -49,7 +50,7 @@ namespace Poker
             Console.WriteLine(hand2outcome);
             Console.WriteLine(Dealer.EvaluateOutputToInt(hand2outcome));
 
-            switch(Dealer.OutcomeComparator(hand1outcome, hand2outcome))
+            switch (Dealer.OutcomeComparator(hand1outcome, hand2outcome))
             {
                 case 0:
                     Console.WriteLine("tie");
@@ -57,14 +58,14 @@ namespace Poker
                 case 1:
                     Console.WriteLine("player 1 won");
                     break;
-                case -1: 
+                case -1:
                     Console.WriteLine("player 2 won");
                     break;
             }
         }
         public static void GenerateGames(int n)
         {
-            for(int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
                 GenerateGame();
                 Console.WriteLine("\n\n");
