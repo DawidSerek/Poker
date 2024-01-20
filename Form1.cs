@@ -44,11 +44,11 @@ namespace PokerWinForms
         {
             labelPoker.Hide();
             buttonStart.Hide();
-            if (OpponentFunds > 9 & PlayerFunds > 9) PlayFirstRoud();
+            if (OpponentFunds > 9 & PlayerFunds > 9) Play();
             else labelActionDesc.Text = "Nie mo¿na zagraæ, poniewa¿ jeden z graczy\nnie ma 10 na start.";
         }
 
-        private void PlayFirstRoud()
+        private void Play()
         {
             SetDefaultValues();
             GenerateGameScreen();
@@ -105,15 +105,22 @@ namespace PokerWinForms
                 Table.Add(Deck.CurrentCardLayout[i]);
 
             // adding images to cards
-            picPlaCard1.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(PlayerHand[0].Path);
-            picPlaCard2.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(PlayerHand[1].Path);
-            picOppCard1.Image = Properties.Resources.card_back;
-            picOppCard2.Image = Properties.Resources.card_back;
-            picTabCard1.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[0].Path);
-            picTabCard2.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[1].Path);
-            picTabCard3.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[2].Path);
-            picTabCard4.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[3].Path);
-            picTabCard5.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[4].Path);
+            try
+            {
+                picPlaCard1.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(PlayerHand[0].Path);
+                picPlaCard2.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(PlayerHand[1].Path);
+                picOppCard1.Image = Properties.Resources.card_back;
+                picOppCard2.Image = Properties.Resources.card_back;
+                picTabCard1.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[0].Path);
+                picTabCard2.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[1].Path);
+                picTabCard3.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[2].Path);
+                picTabCard4.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[3].Path);
+                picTabCard5.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(Table[4].Path);
+            }
+            catch (Exception ex)
+            {
+                throw new ImageNotFoundException($"Could not set card images. {ex}");
+            }
 
             // displaing every card but last two on the table - they are unknown for now
             picPlaCard1.Show();
@@ -358,7 +365,7 @@ namespace PokerWinForms
         private void ShowWinScreen()
         {
             labelOutcome.Text = "Wygrana";
-            labelOutcome.Location = new Point(367, 300);
+            labelOutcome.Location = new Point(367, 350);
             PlayerFunds += PlayerBid;
             PlayerFunds += OpponentBid;
             ShowEndScreen();
@@ -367,7 +374,7 @@ namespace PokerWinForms
         private void ShowTieScreen()
         {
             labelOutcome.Text = "Remis";
-            labelOutcome.Location = new Point(479, 300);
+            labelOutcome.Location = new Point(479, 350);
             PlayerFunds += PlayerBid;
             OpponentFunds += OpponentBid;
             ShowEndScreen();
@@ -376,7 +383,7 @@ namespace PokerWinForms
         private void ShowDefeatScreen()
         {
             labelOutcome.Text = "Przegrana";
-            labelOutcome.Location = new Point(317, 300);
+            labelOutcome.Location = new Point(317, 350);
             OpponentFunds += OpponentBid;
             OpponentFunds += PlayerBid;
             ShowEndScreen();
@@ -385,6 +392,7 @@ namespace PokerWinForms
         private void ShowEndScreen()
         {
             HidePlayerControls();
+            HideTableCards();
             OpponentBid = 0;
             PlayerBid = 0;
             labelOutcome.Show();
@@ -392,8 +400,24 @@ namespace PokerWinForms
             buttonStart.Location = new Point(890, 585);
             buttonStart.Text = "Zagraj ponownie";
             buttonStart.Show();
-            picOppCard1.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(OpponentHand[0].Path);
-            picOppCard2.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(OpponentHand[1].Path);
+            try
+            {
+                picOppCard1.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(OpponentHand[0].Path);
+                picOppCard2.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(OpponentHand[1].Path);
+            }
+            catch (Exception ex) 
+            {
+                throw new ImageNotFoundException($"Could not set card images. {ex}");
+            }
+        }
+
+        private void HideTableCards()
+        {
+            picTabCard1.Hide();
+            picTabCard2.Hide();
+            picTabCard3.Hide();
+            picTabCard4.Hide();
+            picTabCard5.Hide();
         }
 
     }
