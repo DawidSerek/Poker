@@ -5,10 +5,10 @@ namespace PokerWinForms
 {
     public partial class Form1 : Form
     {
-        int opponentFunds;
-        int playerFunds;
-        int opponentBid;
-        int playerBid;
+        int opponentFunds = 200;
+        int playerFunds = 200;
+        int opponentBid = 0;
+        int playerBid = 0;
         int turnNumber;
         int roundNumber;
         bool opponentCheck;
@@ -44,7 +44,8 @@ namespace PokerWinForms
         {
             labelPoker.Hide();
             buttonStart.Hide();
-            PlayFirstRoud();
+            if (OpponentFunds > 9 & PlayerFunds > 9) PlayFirstRoud();
+            else labelActionDesc.Text = "Nie mo¿na zagraæ, poniewa¿ jeden z graczy\nnie ma 10 na start.";
         }
 
         private void PlayFirstRoud()
@@ -128,10 +129,10 @@ namespace PokerWinForms
 
         private void SetDefaultValues()
         {
-            OpponentFunds = 190;
-            PlayerFunds = 190;
-            OpponentBid = 10;
-            PlayerBid = 10;
+            PlayerBid += 10;
+            OpponentBid += 10;
+            PlayerFunds -= 10;
+            OpponentFunds -= 10;
             TurnNumber = 0;
             RoundNumber = 1;
             OpponentCheck = false;
@@ -158,22 +159,19 @@ namespace PokerWinForms
         {
             PlayerCheck = false;
             bool wasSuccesful = int.TryParse(textPodbijValue.Text, out int bid);
-            if (wasSuccesful)
+
+            if (!wasSuccesful) labelActionDesc.Text = "Podana wartoœæ nie jest liczb¹ ca³kowit¹.";
+            else if (PlayerFunds < bid) labelActionDesc.Text = "Za niskie fundusze.";
+            else if (bid <= 0) labelActionDesc.Text = "Podana wartoœæ nie jest liczb¹ dodatni¹.";
+            else if (bid > OpponentBid - PlayerBid + OpponentFunds) labelActionDesc.Text = "Wartoœæ jest za du¿a dla twojego rywala.";
+            else if (bid + PlayerBid < OpponentBid) labelActionDesc.Text = "Musisz podbiæ o wiêcej, aby dorównaæ\nrywalowi.";
+            else
             {
-                if (PlayerFunds >= bid)
-                {
-                    if (bid > 0)
-                    {
-                        PlayerBid += bid;
-                        PlayerFunds -= bid;
-                        UpdateMoneyLabels();
-                        OpponentsTurn();
-                    }
-                    else labelActionDesc.Text = "Podana wartoœæ nie jest liczb¹ dodatni¹.";
-                }
-                else labelActionDesc.Text = "Za niskie fundusze.";
+                PlayerBid += bid;
+                PlayerFunds -= bid;
+                UpdateMoneyLabels();
+                OpponentsTurn();
             }
-            else labelActionDesc.Text = "Podana wartoœæ nie jest liczb¹ naturaln¹.";
         }
 
         private void UpdateMoneyLabels()
@@ -188,79 +186,66 @@ namespace PokerWinForms
 
         private void OpponentsTurn()
         {
-            //Thread.Sleep(1000);
             TurnNumber++;
+            OpponentCheck = false;
             HidePlayerControls();
-            if (OpponentCheck && PlayerCheck)
-            {
-                NextRound();
-                return;
-            }
-            else if (TurnNumber > 3)   // We dont want opponent to bid too much
-            {
-                OpponentChecks();
-                return;
-            }
-            else
-            {
-                MLModel.ModelOutput result = HandEvaluation(OpponentHand);
-                switch (result.PredictedLabel)
-                {
-                    case -1: // opponent resigns if the probability of loss is high enough
-                        switch (RoundNumber)
-                        {
-                            case 1:
-                                if (result.Score.Max() > 0.83)
-                                {
-                                    labelActionDesc.Text = "Przeciwik rezygnuje.";
-                                    ShowWinScreen();
-                                    return;
-                                }
-                                else //opponent checks
-                                {
-                                    OpponentChecks();
-                                    return;
-                                }
-                            case 2:
-                                if (result.Score.Max() > 0.82)
-                                {
-                                    labelActionDesc.Text = "Przeciwik rezygnuje.";
-                                    ShowWinScreen();
-                                    return;
-                                }
-                                else //opponent checks
-                                {
-                                    OpponentChecks();
-                                    return;
-                                }
-                            case 3:
-                                if (result.Score.Max() > 0.75)
-                                {
-                                    labelActionDesc.Text = "Przeciwik rezygnuje.";
-                                    ShowWinScreen();
-                                    return;
-                                }
-                                else //opponent checks
-                                {
-                                    OpponentChecks();
-                                    return;
-                                }
-                        }
-                        return;
-                    case 0: // opponent checks
-                        OpponentChecks();
-                        return;
-                    case 1:  //opponent bids if the bid is big enough and if they have funds
-                        int bid = (int)Math.Round((10 - 2 * TurnNumber) * result.Score.Max()) + 10;
-                        if (bid < 12) OpponentChecks();
-                        else if (bid > OpponentFunds) OpponentChecks();
-                        else OpponentBids(bid);
-                        return;
-                    default:
-                        OpponentChecks();
-                        return;
-                }
+            if (OpponentCheck && PlayerCheck) NextRound();
+            else if (PlayerBid > OpponentBid) OpponentDecidesNoCheck();  // opponent cannot check if their bid is smaller than player's bid
+            else if (TurnNumber > 3) OpponentChecks();  // We dont want opponent to bid too much
+            else OpponentDecides();
 
+        }
+
+        private void OpponentDecides()
+        {
+            MLModel.ModelOutput result = HandEvaluation(OpponentHand);
+            switch (result.PredictedLabel)
+            {
+                case -1: // opponent resigns
+                    labelActionDesc.Text = "Przeciwik rezygnuje.";
+                    ShowWinScreen();
+                    return;
+                case 0: // opponent checks
+                    OpponentChecks();
+                    return;
+                case 1:  //opponent bids if the bid is big enough and if they have funds
+                    int bid = (int)Math.Round((10 - 2 * TurnNumber) * result.Score.Max()) + 10;
+                    if (bid < 12) OpponentChecks();
+                    else if (bid > OpponentFunds) OpponentChecks();
+                    else OpponentBids(bid);
+                    return;
+                default:
+                    OpponentChecks();
+                    return;
+            }
+        }
+
+
+        private void OpponentDecidesNoCheck()
+        {
+            int minimalBid = PlayerBid - OpponentBid;
+            MLModel.ModelOutput result = HandEvaluation(OpponentHand);
+            switch (result.PredictedLabel)
+            {
+                case -1: // opponent resigns
+                    labelActionDesc.Text = "Przeciwik rezygnuje.";
+                    ShowWinScreen();
+                    return;
+                case 0: // opponent would check, but they can't
+                    if (result.Score.Max() > 0.6) // opponent resigns, because probability od loss is high
+                    {
+                        labelActionDesc.Text = "Przeciwik rezygnuje.";
+                        ShowWinScreen();
+                    }
+                    else OpponentBids(minimalBid); 
+                    return;
+                case 1:  //opponent bids if the bid is big enough and if they have funds
+                    int bid = (int)Math.Round((10 - 2 * TurnNumber) * result.Score.Max()) + 10;
+                    if (bid - minimalBid > OpponentFunds) OpponentBids(minimalBid);  // opponent bid cannot be too big
+                    else if (minimalBid > bid) OpponentBids(minimalBid);
+                    else if (bid <= OpponentFunds) OpponentBids(bid);
+                    else OpponentBids(minimalBid);
+                    return;
             }
         }
 
@@ -293,9 +278,9 @@ namespace PokerWinForms
         private void ShowPlayerControls()
         {
             buttonPodbij.Show();
-            buttonSprawdz.Show();
             buttonZrezygnuj.Show();
             textPodbijValue.Show();
+            if (PlayerBid >= OpponentBid) buttonSprawdz.Show();  // player can't check if opponent's bid is bigger than theirs
         }
 
         private void NextRound()
@@ -363,13 +348,19 @@ namespace PokerWinForms
         private void PlayersTurn()
         {
             if (OpponentCheck && PlayerCheck) NextRound();
-            else ShowPlayerControls();
+            else
+            {
+                PlayerCheck = false;
+                ShowPlayerControls();
+            }
         }
 
         private void ShowWinScreen()
         {
             labelOutcome.Text = "Wygrana";
             labelOutcome.Location = new Point(367, 300);
+            PlayerFunds += PlayerBid;
+            PlayerFunds += OpponentBid;
             ShowEndScreen();
         }
 
@@ -377,6 +368,8 @@ namespace PokerWinForms
         {
             labelOutcome.Text = "Remis";
             labelOutcome.Location = new Point(479, 300);
+            PlayerFunds += PlayerBid;
+            OpponentFunds += OpponentBid;
             ShowEndScreen();
         }
 
@@ -384,12 +377,16 @@ namespace PokerWinForms
         {
             labelOutcome.Text = "Przegrana";
             labelOutcome.Location = new Point(317, 300);
+            OpponentFunds += OpponentBid;
+            OpponentFunds += PlayerBid;
             ShowEndScreen();
         }
 
         private void ShowEndScreen()
         {
             HidePlayerControls();
+            OpponentBid = 0;
+            PlayerBid = 0;
             labelOutcome.Show();
             buttonStart.Size = new Size(372, 172);
             buttonStart.Location = new Point(890, 585);
@@ -399,15 +396,7 @@ namespace PokerWinForms
             picOppCard2.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(OpponentHand[1].Path);
         }
 
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-
-        }
     }
-
-
-
-
 
 }
 

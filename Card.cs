@@ -12,7 +12,6 @@ namespace PokerWinForms
         CardValue value;
         int id;
         string path;
-        int b;
 
         public Card() { }
         public Card(int id)

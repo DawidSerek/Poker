@@ -71,7 +71,7 @@ namespace PokerWinForms
             // 
             // backgroundWorker1
             // 
-            backgroundWorker1.DoWork += backgroundWorker1_DoWork;
+            
             // 
             // buttonStart
             // 
