@@ -8,20 +8,17 @@ namespace PokerWinForms
 {
     public class Player
     {
-        const int n = 2;
-        Card[] cards = new Card[n];
+        Card[] cards = new Card[2];
 
-        private void generatePlayer()
+        public Player()
         {
             for (int i = 0; i < cards.Length; i++)
                 cards[i] = Deck.TransferCard();
         }
-        public Player() { generatePlayer(); }
-
         public override string? ToString()
         {
             String output = "";
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < 2; i++)
                 output += $"{cards[i].ToString()}\n";
             return output;
         }

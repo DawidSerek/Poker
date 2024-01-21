@@ -23,7 +23,12 @@ namespace PokerWinForms
         public int SecondEval { get => secondEval; set => secondEval = value; }
         public int HandUtility { get => handUtility; set => handUtility = value; }
 
-        public override string? ToString() => ($"first eval: {firstEval}, second eval: {secondEval}, hand utility: {handUtility}");
+        public override string? ToString() => 
+            (
+                $"first eval: {firstEval}, " +
+                $"second eval: {secondEval}, " +
+                $"hand utility: {handUtility}"
+            );
     }
 
     public enum EvalEnum

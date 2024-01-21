@@ -42,6 +42,7 @@ namespace PokerWinForms
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            HideTableCards();
             labelPoker.Hide();
             buttonStart.Hide();
             if (OpponentFunds > 9 & PlayerFunds > 9) Play();
@@ -392,7 +393,7 @@ namespace PokerWinForms
         private void ShowEndScreen()
         {
             HidePlayerControls();
-            HideTableCards();
+            //HideTableCards();
             OpponentBid = 0;
             PlayerBid = 0;
             labelOutcome.Show();

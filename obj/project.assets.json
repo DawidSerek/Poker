@@ -1185,19 +1185,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\marle\\.nuget\\packages\\": {}
+    "C:\\Users\\dawid\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marle\\Source\\Repos\\Pokernew\\PokerWinForms.csproj",
+      "projectUniqueName": "C:\\Users\\dawid\\Source\\Repos\\Poker\\PokerWinForms.csproj",
       "projectName": "PokerWinForms",
-      "projectPath": "C:\\Users\\marle\\Source\\Repos\\Pokernew\\PokerWinForms.csproj",
-      "packagesPath": "C:\\Users\\marle\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marle\\Source\\Repos\\Pokernew\\obj\\",
+      "projectPath": "C:\\Users\\dawid\\Source\\Repos\\Poker\\PokerWinForms.csproj",
+      "packagesPath": "C:\\Users\\dawid\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\dawid\\Source\\Repos\\Poker\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\marle\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\dawid\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

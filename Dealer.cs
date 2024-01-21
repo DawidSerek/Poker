@@ -10,11 +10,12 @@ namespace PokerWinForms
 {
     public static class Dealer
     {
+        //game management
         public static List<Player> Players = new List<Player>();
         public static void AddPlayer() => Players.Add(new Player());
-        public static void ShuffleDeck()
+        public static void ShuffleDeck(int amountOfShuffles = 100)
         {
-            for (int i = 0; i < 60; i++)
+            for (int i = 0; i < amountOfShuffles; i++)
             {
                 Random rand = new Random();
                 int deckCount = Deck.CurrentCardLayout.Count;
@@ -29,7 +30,7 @@ namespace PokerWinForms
             }
         }
 
-
+        //evaulation process
         public static Outcome Evaluate(List<Card> EvaluatedCards)
         {
             if (EvaluatedCards.Count != 5)
@@ -141,10 +142,8 @@ namespace PokerWinForms
 
             return outcome;
         }
-
         private static Outcome nthEvaluate(List<(Card, int)> EvaluatedCards, int prevUtility)
         {
-
             if (EvaluatedCards.Count == 5)
             {
                 List<Card> input = new List<Card>();
@@ -169,7 +168,6 @@ namespace PokerWinForms
                     );
                 }
             }
-
             return output;
         }
         public static Outcome nthEvaluateInit(List<Card> EvaluatedCards)
@@ -186,7 +184,7 @@ namespace PokerWinForms
             return output;
         }
 
-
+        //comparasion utilities
         public static int EvaluateOutputToInt(Outcome o) => ((int)o.FirstEval * 1000000 + o.SecondEval);
         public static int OutcomeComparator(Outcome o1, Outcome o2)
         {
@@ -194,7 +192,5 @@ namespace PokerWinForms
             if (EvaluateOutputToInt(o1) > EvaluateOutputToInt(o2)) return 1;
             return -1;
         }
-
-
     }
 }

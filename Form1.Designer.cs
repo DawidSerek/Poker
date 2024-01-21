@@ -69,10 +69,6 @@ namespace PokerWinForms
             ((System.ComponentModel.ISupportInitialize)picPlaCard2).BeginInit();
             SuspendLayout();
             // 
-            // backgroundWorker1
-            // 
-            
-            // 
             // buttonStart
             // 
             buttonStart.BackColor = SystemColors.ControlDark;

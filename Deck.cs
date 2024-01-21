@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerWinForms
 {
-    public static class Deck
+    public class Deck
     {
         public static List<Card> CurrentCardLayout = new List<Card>();
 
@@ -17,12 +17,12 @@ namespace PokerWinForms
         }
         public static Card TransferCard()
         {
-            Card temp = CurrentCardLayout.Last();
+            Card transferedCard = CurrentCardLayout.Last();
             CurrentCardLayout.RemoveAt(CurrentCardLayout.Count - 1);
-            return temp;
+            return transferedCard;
         }
 
-        public static string ToString()
+        public override string ToString()
         {
             string output = string.Empty;
             for (int i = 0; i < CurrentCardLayout.Count; i++)

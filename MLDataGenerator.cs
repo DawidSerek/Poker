@@ -8,32 +8,36 @@ using System.Threading.Tasks;
 using PokerWinForms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+/*
+ * Utility class. Used to either test methods within "Dealer" class, 
+ * or to generate input values for ML model
+ */
+
+
 namespace PokerWinForms
 {
     internal class MLDataGenerator
     {
+        //display game emulation for debug purposes
         public static void GenerateGame()
         {
             Dealer.ShuffleDeck();
-            List<Card> hand1 = new List<Card>();
 
+            //generate hands & table
+            List<Card> hand1 = new List<Card>();
             for (int i = 0; i < 2; i++)
             {
                 Console.WriteLine(Deck.CurrentCardLayout[i]);
                 hand1.Add(Deck.CurrentCardLayout[i]);
             }
-
             Console.WriteLine("vs");
-
             List<Card> hand2 = new List<Card>();
             for (int i = 2; i < 4; i++)
             {
                 Console.WriteLine(Deck.CurrentCardLayout[i]);
                 hand2.Add(Deck.CurrentCardLayout[i]);
             }
-
             Console.WriteLine("table");
-
             List<Card> table = new List<Card>();
             for (int i = 4; i < 9; i++)
             {
@@ -42,14 +46,17 @@ namespace PokerWinForms
             }
             Console.WriteLine("\n");
 
+            //evaluate hands
             Outcome hand1outcome = Dealer.nthEvaluateInit(hand1.Concat(table).ToList());
             Outcome hand2outcome = Dealer.nthEvaluateInit(hand2.Concat(table).ToList());
 
+            //display outcome both as string and int
             Console.WriteLine(hand1outcome);
             Console.WriteLine(Dealer.EvaluateOutputToInt(hand1outcome));
             Console.WriteLine(hand2outcome);
             Console.WriteLine(Dealer.EvaluateOutputToInt(hand2outcome));
 
+            //name the outcome
             switch (Dealer.OutcomeComparator(hand1outcome, hand2outcome))
             {
                 case 0:
@@ -63,76 +70,63 @@ namespace PokerWinForms
                     break;
             }
         }
-        public static void GenerateGames(int n)
+        //generate csv/emulated games in mass form
+        public static void GenerateGames(int n, bool isCsv, string csvPath = "D:\\Programowanie\\VS\\PO\\Poker\\output.csv")
         {
             for (int i = 0; i < n; i++)
             {
-                GenerateGame();
+                if (!isCsv)
+                    GenerateCsv(csvPath);
+                else
+                    GenerateGame();
                 Console.WriteLine("\n\n");
             }
         }
-
-
-        public static void GenerateCsv(int size = 10)
+        public static void GenerateCsv(string csvPath,int size = 10)
         {
             List<List<int>> rows = new List<List<int>>();
-
             StringBuilder csvContent = new StringBuilder();
 
+            int[] handSizes = {0,3,4,5};
             for (int i = 0; i < size; i++)
-            {
-                csvContent.AppendLine(string.Join(";", GenerateCsvData(0)));
-                csvContent.AppendLine(string.Join(";", GenerateCsvData(3)));
-                csvContent.AppendLine(string.Join(";", GenerateCsvData(4)));
-                csvContent.AppendLine(string.Join(";", GenerateCsvData(5)));
-            }
+                foreach(int h in handSizes)
+                    csvContent.AppendLine(
+                        string.Join(";", GenerateCsvData(h))
+                    );
 
-            File.WriteAllText("D:\\Programowanie\\VS\\PO\\Poker\\output.csv", csvContent.ToString());
+            File.WriteAllText(csvPath, csvContent.ToString());
         }
-
+        //utility method to prepare data for GenerateCsv method
         public static List<int> GenerateCsvData(int tableSize = 5)
         {
-            bool isSecretlyZero = tableSize == 0;
             if (tableSize == 0) tableSize = 5;
 
             Dealer.ShuffleDeck();
-            List<Card> hand1 = new List<Card>();
 
+            //generate hands
+            List<Card> hand1 = new List<Card>();
             for (int i = 0; i < 2; i++)
                 hand1.Add(Deck.CurrentCardLayout[i]);
-
             List<Card> hand2 = new List<Card>();
             for (int i = 2; i < 4; i++)
                 hand2.Add(Deck.CurrentCardLayout[i]);
-
             List<Card> table = new List<Card>();
             for (int i = 4; i < tableSize + 4; i++)
                 table.Add(Deck.CurrentCardLayout[i]);
 
+            //evaluate hands
             Outcome hand1outcome = Dealer.nthEvaluateInit(hand1.Concat(table).ToList());
             Outcome hand2outcome = Dealer.nthEvaluateInit(hand2.Concat(table).ToList());
 
-            /*foreach (Card card in hand1) Console.WriteLine(card.Id);
-            foreach (Card card in table) Console.WriteLine(card.Id);
-            Console.WriteLine(Dealer.OutcomeComparator(hand1outcome, hand2outcome));*/
-
+            //organize data into list
             List<int> OutputRow = new List<int>();
-
-            /*foreach (Card card in hand1) OutputRow.Add(card.Id);*/
-
-            /*if (!isSecretlyZero)
-                foreach (Card card in table) OutputRow.Add(card.Id);
-            else
-                for (int i = 0; i < 5; i++) OutputRow.Add(0);*/
-
-            /*for (int i = 0; i < 5 - tableSize; i++) OutputRow.Add(0);*/
-            OutputRow.Add(Dealer.EvaluateOutputToInt(hand1outcome));
-            OutputRow.Add(hand1outcome.HandUtility);
-            OutputRow.Add(Dealer.OutcomeComparator(hand1outcome, hand2outcome));
+            new List<int> {
+                Dealer.EvaluateOutputToInt(hand1outcome),
+                hand1outcome.HandUtility,
+                Dealer.OutcomeComparator(hand1outcome, hand2outcome)
+            };
 
             return OutputRow;
         }
-
-
     }
 }

@@ -33,7 +33,6 @@ namespace PokerWinForms
             return $"{value} of {color}/id:{id}";
         }
     }
-
     public enum CardColor
     {
         hearts = 1,
@@ -41,7 +40,6 @@ namespace PokerWinForms
         clubs = 3,
         diamonds = 4
     }
-
     public enum CardValue
     {
         two = 1,
