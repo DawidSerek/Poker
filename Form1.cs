@@ -221,6 +221,15 @@ namespace PokerWinForms
                     int bid = (int)Math.Round((10 - 2 * TurnNumber) * result.Score.Max()) + 10;
                     if (bid < 12) OpponentChecks();
                     else if (bid > OpponentFunds) OpponentChecks();
+                    else if (bid > PlayerFunds)
+                    {
+                        if (PlayerFunds == 0) OpponentChecks();
+                        else
+                        {
+                            int maximalBid = PlayerFunds;
+                            OpponentBids(maximalBid);
+                        }
+                    }
                     else OpponentBids(bid);
                     return;
                 default:
@@ -250,7 +259,7 @@ namespace PokerWinForms
                     return;
                 case 1:  //opponent bids if the bid is big enough and if they have funds
                     int bid = (int)Math.Round((10 - 2 * TurnNumber) * result.Score.Max()) + 10;
-                    if (bid - minimalBid > OpponentFunds) OpponentBids(minimalBid);  // opponent bid cannot be too big
+                    if (bid - minimalBid > PlayerFunds) OpponentBids(minimalBid);  // opponent bid cannot be too big
                     else if (minimalBid > bid) OpponentBids(minimalBid);
                     else if (bid <= OpponentFunds) OpponentBids(bid);
                     else OpponentBids(minimalBid);
@@ -312,10 +321,27 @@ namespace PokerWinForms
                 PlayerHand.Add(Table[4]);
                 OpponentHand.Add(Table[4]);
             }
-            PlayerCheck = false;
-            OpponentCheck = false;
-            TurnNumber = 0;
-            ShowPlayerControls();  // Player can play now
+            if (PlayerFunds == 0 || OpponentFunds == 0) NoFundsLeftEnding();
+            else
+            {
+                PlayerCheck = false;
+                OpponentCheck = false;
+                TurnNumber = 0;
+                ShowPlayerControls();  // Player can play now
+            }
+        }
+
+        private void NoFundsLeftEnding()
+        {
+            if (RoundNumber == 2) // adding last two cards to the table
+            {
+                picTabCard5.Show();
+                PlayerHand.Add(Table[4]);
+                OpponentHand.Add(Table[4]);
+            }
+            ComputeGameResults();
+            labelActionDesc.Text = "Wczeœniejsze zakoñczenie gry z powodu\nbraku funduszy";
+            return;
         }
         private void ComputeGameResults()
         {
