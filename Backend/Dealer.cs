@@ -1,10 +1,10 @@
-﻿using PokerWinForms;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PokerWinForms.Backend;
 
 namespace PokerWinForms
 {
@@ -20,8 +20,8 @@ namespace PokerWinForms
                 Random rand = new Random();
                 int deckCount = Deck.CurrentCardLayout.Count;
 
-                int RandomIndex1 = (int)rand.Next(deckCount);
-                int RandomIndex2 = (int)rand.Next(deckCount);
+                int RandomIndex1 = rand.Next(deckCount);
+                int RandomIndex2 = rand.Next(deckCount);
 
                 Card temp = Deck.CurrentCardLayout[RandomIndex1];
 
@@ -164,7 +164,7 @@ namespace PokerWinForms
                         rec.FirstEval,
                         rec.SecondEval,
                         rec.HandUtility -
-                        ((EvaluatedCards[i].Item2 == 0 || EvaluatedCards[i].Item2 == 1) ? 1 : 0)
+                        (EvaluatedCards[i].Item2 == 0 || EvaluatedCards[i].Item2 == 1 ? 1 : 0)
                     );
                 }
             }
@@ -185,7 +185,7 @@ namespace PokerWinForms
         }
 
         //comparasion utilities
-        public static int EvaluateOutputToInt(Outcome o) => ((int)o.FirstEval * 1000000 + o.SecondEval);
+        public static int EvaluateOutputToInt(Outcome o) => (int)o.FirstEval * 1000000 + o.SecondEval;
         public static int OutcomeComparator(Outcome o1, Outcome o2)
         {
             if (EvaluateOutputToInt(o1) == EvaluateOutputToInt(o2)) return 0;

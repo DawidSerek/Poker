@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerWinForms
+namespace PokerWinForms.Backend
 {
     public class Card
     {
@@ -18,8 +18,8 @@ namespace PokerWinForms
         {
             this.id = id;
             id--;
-            this.value = (CardValue)(id % 13 + 1);
-            this.color = (CardColor)(id / 13) + 1;
+            value = (CardValue)(id % 13 + 1);
+            color = (CardColor)(id / 13) + 1;
             path = "_" + id + "_" + value + "_of_" + color;
         }
 

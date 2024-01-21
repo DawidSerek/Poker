@@ -5,8 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using PokerWinForms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using PokerWinForms.Backend;
+
 
 /*
  * Utility class. Used to either test methods within "Dealer" class, 
@@ -82,14 +83,14 @@ namespace PokerWinForms
                 Console.WriteLine("\n\n");
             }
         }
-        public static void GenerateCsv(string csvPath,int size = 10)
+        public static void GenerateCsv(string csvPath, int size = 10)
         {
             List<List<int>> rows = new List<List<int>>();
             StringBuilder csvContent = new StringBuilder();
 
-            int[] handSizes = {0,3,4,5};
+            int[] handSizes = { 0, 3, 4, 5 };
             for (int i = 0; i < size; i++)
-                foreach(int h in handSizes)
+                foreach (int h in handSizes)
                     csvContent.AppendLine(
                         string.Join(";", GenerateCsvData(h))
                     );

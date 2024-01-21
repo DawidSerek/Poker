@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerWinForms
+namespace PokerWinForms.Backend
 {
     public class Player
     {
@@ -17,7 +17,7 @@ namespace PokerWinForms
         }
         public override string? ToString()
         {
-            String output = "";
+            string output = "";
             for (int i = 0; i < 2; i++)
                 output += $"{cards[i].ToString()}\n";
             return output;

@@ -14,21 +14,21 @@ namespace PokerWinForms
 
         public Outcome(EvalEnum firstEval, int secondEval, int handUtility)
         {
-            this.FirstEval = firstEval;
-            this.SecondEval = secondEval;
-            this.HandUtility = handUtility;
+            FirstEval = firstEval;
+            SecondEval = secondEval;
+            HandUtility = handUtility;
         }
 
         public EvalEnum FirstEval { get => firstEval; set => firstEval = value; }
         public int SecondEval { get => secondEval; set => secondEval = value; }
         public int HandUtility { get => handUtility; set => handUtility = value; }
 
-        public override string? ToString() => 
-            (
+        public override string? ToString() =>
+
                 $"first eval: {firstEval}, " +
                 $"second eval: {secondEval}, " +
                 $"hand utility: {handUtility}"
-            );
+            ;
     }
 
     public enum EvalEnum
